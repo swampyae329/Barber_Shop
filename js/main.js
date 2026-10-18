@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // 4. Booking Form Submission Handling with Telegram Bot
+  // 4. Booking Form Submission Handling with Cloudflare Worker
   const bookingForm = document.getElementById('bookingForm');
   const feedback = document.getElementById('formFeedback');
 
@@ -100,34 +100,22 @@ document.addEventListener('DOMContentLoaded', () => {
       const noteInput = document.getElementById('note');
       const note = noteInput && noteInput.value.trim() ? noteInput.value.trim() : 'မရှိပါ';
 
-      // **************************************************************************
-      // သင့်ရဲ့ Bot Token နဲ့ Chat ID ကို အောက်က နေရာ (၂) ခုမှာ အစားထိုးပေးပါ
-      // **************************************************************************
-      const botToken = "YOUR_BOT_TOKEN_HERE"; // BotFather မှ ရရှိထားသော Token
-      const chatId = "YOUR_CHAT_ID_HERE";     // userinfobot မှ ရရှိထားသော Chat ID
-      // **************************************************************************
-
-      // Telegram ထဲ ပို့မည့် စာတို format
-      const message = `💈 *NEW BARBER APPOINTMENT!* 💈\n\n` +
-                      `👤 *ဖောက်သည်အမည်:* ${name}\n` +
-                      `📞 *ဖုန်းနံပါတ်:* ${phone}\n` +
-                      `✂️ *ဝန်ဆောင်မှု:* ${service}\n` +
-                      `📅 *ရက်စွဲ:* ${date}\n` +
-                      `⏰ *အချိန်:* ${time}\n` +
-                      `📝 *အထူးတောင်းဆိုချက်:* ${note}`;
-
-      const telegramApiUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
+      // Cloudflare Worker URL (Token ကို Worker Secret ထဲတွင် လုံခြုံစွာ ထည့်ထားပြီးဖြစ်ပါသည်)
+      const workerUrl = "https://barber-booking-api.swampyaeaung085.workers.dev";
 
       try {
-        const response = await fetch(telegramApiUrl, {
+        const response = await fetch(workerUrl, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            chat_id: chatId,
-            text: message,
-            parse_mode: 'Markdown'
+            name: name,
+            phone: phone,
+            service: service,
+            date: date,
+            time: time,
+            note: note
           })
         });
 
