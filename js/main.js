@@ -76,31 +76,91 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // 4. Booking Form Submission Handling
+  // 4. Booking Form Submission Handling with Telegram Bot
   const bookingForm = document.getElementById('bookingForm');
   const feedback = document.getElementById('formFeedback');
 
   if (bookingForm && feedback) {
-    bookingForm.addEventListener('submit', (e) => {
+    bookingForm.addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      const name = document.getElementById('name').value;
-      const phone = document.getElementById('phone').value;
-      const service = document.getElementById('service').value;
+      // Submit ခလုတ်ကို ချက်ချင်း Disable လုပ်ပြီး Loading ပြခြင်း
+      const submitBtn = bookingForm.querySelector('button[type="submit"]');
+      const originalBtnText = submitBtn.innerHTML;
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> ပေးပို့နေပါသည်...';
+
+      // Input Values ရယူခြင်း
+      const name = document.getElementById('name').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const serviceSelect = document.getElementById('service');
+      const service = serviceSelect.options[serviceSelect.selectedIndex].text;
       const date = document.getElementById('date').value;
       const time = document.getElementById('time').value;
+      const noteInput = document.getElementById('note');
+      const note = noteInput && noteInput.value.trim() ? noteInput.value.trim() : 'မရှိပါ';
 
-      feedback.className = 'form-feedback success';
-      feedback.innerHTML = `
-        <strong><i class="fa-solid fa-circle-check"></i> Booking အောင်မြင်ပါသည်!</strong><br>
-        ကျေးဇူးတင်ပါတယ် <b>${name}</b>။ လူကြီးမင်း ရွေးချယ်ထားသော (${date} - ${time}) အတွက် ဖုန်းနံပါတ် <b>${phone}</b> သို့ မကြာမီ SMS / Call ဖြင့် အတည်ပြုပေးပါမည်။
-      `;
-      feedback.classList.remove('hidden');
+      // **************************************************************************
+      // သင့်ရဲ့ Bot Token နဲ့ Chat ID ကို အောက်က နေရာ (၂) ခုမှာ အစားထိုးပေးပါ
+      // **************************************************************************
+      const botToken = "YOUR_BOT_TOKEN_HERE"; // BotFather မှ ရရှိထားသော Token
+      const chatId = "YOUR_CHAT_ID_HERE";     // userinfobot မှ ရရှိထားသော Chat ID
+      // **************************************************************************
 
-      bookingForm.reset();
+      // Telegram ထဲ ပို့မည့် စာတို format
+      const message = `💈 *NEW BARBER APPOINTMENT!* 💈\n\n` +
+                      `👤 *ဖောက်သည်အမည်:* ${name}\n` +
+                      `📞 *ဖုန်းနံပါတ်:* ${phone}\n` +
+                      `✂️ *ဝန်ဆောင်မှု:* ${service}\n` +
+                      `📅 *ရက်စွဲ:* ${date}\n` +
+                      `⏰ *အချိန်:* ${time}\n` +
+                      `📝 *အထူးတောင်းဆိုချက်:* ${note}`;
 
-      // Scroll to feedback message
-      feedback.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      const telegramApiUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
+
+      try {
+        const response = await fetch(telegramApiUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            chat_id: chatId,
+            text: message,
+            parse_mode: 'Markdown'
+          })
+        });
+
+        const data = await response.json();
+
+        if (data.ok) {
+          feedback.className = 'form-feedback success';
+          feedback.style.backgroundColor = 'rgba(34, 197, 94, 0.15)';
+          feedback.style.border = '1px solid #22c55e';
+          feedback.style.color = '#4ade80';
+          feedback.innerHTML = `
+            <strong><i class="fa-solid fa-circle-check"></i> Booking အောင်မြင်ပါသည်!</strong><br>
+            ကျေးဇူးတင်ပါတယ် <b>${name}</b>။ လူကြီးမင်း ရွေးချယ်ထားသော (${date} - ${time}) အတွက် ဖုန်းနံပါတ် <b>${phone}</b> သို့ မကြာမီ ဆိုင်မှ ပြန်လည်ဆက်သွယ် အတည်ပြုပေးပါမည်။
+          `;
+          bookingForm.reset();
+        } else {
+          throw new Error(data.description || 'API Error');
+        }
+      } catch (error) {
+        feedback.className = 'form-feedback';
+        feedback.style.backgroundColor = 'rgba(239, 68, 68, 0.15)';
+        feedback.style.border = '1px solid #ef4444';
+        feedback.style.color = '#f87171';
+        feedback.innerHTML = `
+          <strong><i class="fa-solid fa-triangle-exclamation"></i> ချိတ်ဆက်မှု မအောင်မြင်ပါ။</strong><br>
+          လိုင်းချို့ယွင်းချက်ကြောင့် ဖြစ်နိုင်ပါသဖြင့် ဆိုင်ဖုန်းသို့ တိုက်ရိုက်ဆက်သွယ်ပြီး Booking ရယူပေးပါရန် မေတ္တာရပ်ခံအပ်ပါသည်။
+        `;
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalBtnText;
+        feedback.classList.remove('hidden');
+        feedback.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
     });
   }
 });
