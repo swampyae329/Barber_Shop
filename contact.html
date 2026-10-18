@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact & Booking - Classic Cuts</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+</head>
+<body>
+  <header class="navbar-wrapper" id="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="brand-logo">
+        <i class="fa-solid fa-scissors"></i>
+        <span>CLASSIC CUTS</span>
+      </a>
+      <nav class="nav-menu" id="navMenu">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="services.html" class="nav-link">Services</a>
+        <a href="about.html" class="nav-link">About Us</a>
+        <a href="contact.html" class="nav-link active">Contact</a>
+        <a href="contact.html" class="btn btn-primary nav-cta">Book Appointment</a>
+      </nav>
+      <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle menu">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+  </header>
+
+  <section class="page-header">
+    <div class="container" data-aos="fade-up">
+      <h1>Book Appointment & Contact</h1>
+      <p>အချိန်မရွေး ကြိုတင် booking လုပ်နိုင်ပြီး အသေးစိတ် မေးမြန်းနိုင်ပါသည်</p>
+    </div>
+  </section>
+
+  <section class="contact-section">
+    <div class="container two-col-grid">
+      <!-- Info Left -->
+      <div class="contact-info-card" data-aos="fade-right">
+        <h2>ဆက်သွယ်ရန် အချက်အလက်များ</h2>
+        <p>လူကြီးမင်းတို့ လာရောက်ရန် အဆင်ပြေစေမည့် အသေးစိတ်လိပ်စာနှင့် ဆက်သွယ်ရန်ဖုန်းများ -</p>
+        
+        <div class="info-group">
+          <div class="info-icon"><i class="fa-solid fa-location-dot"></i></div>
+          <div>
+            <h4>Location</h4>
+            <p>အမှတ် (၁၂၃)၊ ကမ္ဘာအေးဘုရားလမ်း၊ ရန်ကုန်မြို့။</p>
+          </div>
+        </div>
+
+        <div class="info-group">
+          <div class="info-icon"><i class="fa-solid fa-phone"></i></div>
+          <div>
+            <h4>Phone Numbers</h4>
+            <p>+95 9 123 456 789 / +95 9 987 654 321</p>
+          </div>
+        </div>
+
+        <div class="info-group">
+          <div class="info-icon"><i class="fa-solid fa-envelope"></i></div>
+          <div>
+            <h4>Email Address</h4>
+            <p>booking@classiccuts-barber.com</p>
+          </div>
+        </div>
+
+        <div class="info-group">
+          <div class="info-icon"><i class="fa-solid fa-clock"></i></div>
+          <div>
+            <h4>Operating Hours</h4>
+            <p>နေ့စဉ် မနက် 9:00 AM မှ ည 8:30 PM ထိ</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Booking Form Right -->
+      <div class="booking-form-card" data-aos="fade-left">
+        <h2>အွန်လိုင်း Booking တင်ရန်</h2>
+        <form id="bookingForm">
+          <div class="form-group">
+            <label for="name">အမည် (Full Name)</label>
+            <input type="text" id="name" required placeholder="သင့်အမည် ရိုက်ထည့်ပါ">
+          </div>
+
+          <div class="form-group">
+            <label for="phone">ဖုန်းနံပါတ် (Phone Number)</label>
+            <input type="tel" id="phone" required placeholder="09xxxxxxxxx">
+          </div>
+
+          <div class="form-group">
+            <label for="service">ရွေးချယ်မည့် ဝန်ဆောင်မှု</label>
+            <select id="service" required>
+              <option value="">ရွေးချယ်ပါ...</option>
+              <option value="fade">Signature Fade & Cut (15,000 MMK)</option>
+              <option value="scissor">Classic Scissor Cut (12,000 MMK)</option>
+              <option value="shave">Hot Towel Shave (10,000 MMK)</option>
+              <option value="beard">Beard Sculpting (8,000 MMK)</option>
+              <option value="facial">Charcoal Detox Facial (18,000 MMK)</option>
+              <option value="combo">The Gentleman Full Combo (30,000 MMK)</option>
+            </select>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="date">ရက်စွဲ (Date)</label>
+              <input type="date" id="date" required>
+            </div>
+            <div class="form-group">
+              <label for="time">အချိန် (Time)</label>
+              <input type="time" id="time" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="note">အထူးတောင်းဆိုချက်များ (Optional)</label>
+            <textarea id="note" rows="3" placeholder="Stylist ရွေးချယ်လိုပါက သို့မဟုတ် အခြားဖြည့်စွက်ချက်"></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary submit-btn">
+            <i class="fa-solid fa-calendar-check"></i> Book Appointment Now
+          </button>
+        </form>
+        <div id="formFeedback" class="form-feedback hidden"></div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container footer-bottom">
+      <p>&copy; 2026 Classic Cuts Barber Shop. Hosted seamlessly with GitHub Pages.</p>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

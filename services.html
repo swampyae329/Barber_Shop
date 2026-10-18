@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Services & Pricing - Classic Cuts</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+</head>
+<body>
+  <header class="navbar-wrapper" id="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="brand-logo">
+        <i class="fa-solid fa-scissors"></i>
+        <span>CLASSIC CUTS</span>
+      </a>
+      <nav class="nav-menu" id="navMenu">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="services.html" class="nav-link active">Services</a>
+        <a href="about.html" class="nav-link">About Us</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+        <a href="contact.html" class="btn btn-primary nav-cta">Book Appointment</a>
+      </nav>
+      <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle menu">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+  </header>
+
+  <section class="page-header">
+    <div class="container" data-aos="fade-up">
+      <h1>Our Services & Menu</h1>
+      <p>အမျိုးအစားအလိုက် စိတ်ကြိုက်ရွေးချယ်နိုင်သော ဈေးနှုန်းနှင့် ဝန်ဆောင်မှုများ</p>
+    </div>
+  </section>
+
+  <!-- Filter Buttons Section -->
+  <section class="services-wrapper">
+    <div class="container">
+      <div class="filter-controls" data-aos="fade-up">
+        <button class="filter-btn active" data-filter="all">All Services</button>
+        <button class="filter-btn" data-filter="haircut">Haircuts</button>
+        <button class="filter-btn" data-filter="shave">Shave & Beard</button>
+        <button class="filter-btn" data-filter="treatment">Spa & Treatments</button>
+        <button class="filter-btn" data-filter="combo">Combo Packages</button>
+      </div>
+
+      <div class="cards-grid" id="servicesGrid">
+        <!-- Card 1 -->
+        <div class="service-card" data-category="haircut" data-aos="fade-up">
+          <div class="card-img-wrap">
+            <img src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?auto=format&fit=crop&w=700&q=80" alt="Classic Fade">
+            <span class="price-tag">15,000 MMK</span>
+          </div>
+          <div class="card-body">
+            <span class="cat-pill">Haircut</span>
+            <h3>Signature Skin Fade</h3>
+            <p>ခေတ်မီ အနုစိပ် Skin Fade သပ်ရပ်စွာညှပ်ပေးခြင်းနှင့် Hair Wash အပါအဝင်။</p>
+            <div class="card-meta">
+              <span><i class="fa-regular fa-clock"></i> 45 Mins</span>
+              <a href="contact.html" class="book-now-btn">Book Now</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="service-card" data-category="haircut" data-aos="fade-up" data-aos-delay="100">
+          <div class="card-img-wrap">
+            <img src="https://images.unsplash.com/photo-1605497788044-5a32c7078486?auto=format&fit=crop&w=700&q=80" alt="Scissor Work">
+            <span class="price-tag">12,000 MMK</span>
+          </div>
+          <div class="card-body">
+            <span class="cat-pill">Haircut</span>
+            <h3>Classic Scissor Cut</h3>
+            <p>ကတ်ကြေးသီးသန့်ဖြင့် သဘာဝကျကျ အလွှာလိုက် ညှပ်ပေးသော စတိုင်လ်။</p>
+            <div class="card-meta">
+              <span><i class="fa-regular fa-clock"></i> 40 Mins</span>
+              <a href="contact.html" class="book-now-btn">Book Now</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="service-card" data-category="shave" data-aos="fade-up" data-aos-delay="200">
+          <div class="card-img-wrap">
+            <img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=700&q=80" alt="Hot Towel Shave">
+            <span class="price-tag">10,000 MMK</span>
+          </div>
+          <div class="card-body">
+            <span class="cat-pill">Shave & Beard</span>
+            <h3>Traditional Straight Razor Shave</h3>
+            <p>ဓားအိဖြင့် အနုစိပ်ရိတ်ပေးကာ Hot Towel နှင့် Aftershave လိမ်းပေးခြင်း။</p>
+            <div class="card-meta">
+              <span><i class="fa-regular fa-clock"></i> 30 Mins</span>
+              <a href="contact.html" class="book-now-btn">Book Now</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="service-card" data-category="shave" data-aos="fade-up">
+          <div class="card-img-wrap">
+            <img src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?auto=format&fit=crop&w=700&q=80" alt="Beard Shaping">
+            <span class="price-tag">8,000 MMK</span>
+          </div>
+          <div class="card-body">
+            <span class="cat-pill">Shave & Beard</span>
+            <h3>Beard Shaping & Lineup</h3>
+            <p>ပါးသိုင်းမုတ်ဆိတ် အနားသတ်တိကျစွာ ပုံသွင်းပေးခြင်း။</p>
+            <div class="card-meta">
+              <span><i class="fa-regular fa-clock"></i> 25 Mins</span>
+              <a href="contact.html" class="book-now-btn">Book Now</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 5 -->
+        <div class="service-card" data-category="treatment" data-aos="fade-up" data-aos-delay="100">
+          <div class="card-img-wrap">
+            <img src="https://images.unsplash.com/photo-1512290900672-1f41d996d999?auto=format&fit=crop&w=700&q=80" alt="Facial Mud Mask">
+            <span class="price-tag">18,000 MMK</span>
+          </div>
+          <div class="card-body">
+            <span class="cat-pill">Spa & Treatments</span>
+            <h3>Charcoal Detox Facial</h3>
+            <p>မျက်နှာအမည်းစက်၊ ဖုန်မှုန့်များကို ဖယ်ရှားပေးသော Black Mud Mask နှင့် သွေးလည်ပတ်မှုနှိပ်နယ်ခြင်း။</p>
+            <div class="card-meta">
+              <span><i class="fa-regular fa-clock"></i> 40 Mins</span>
+              <a href="contact.html" class="book-now-btn">Book Now</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 6 -->
+        <div class="service-card" data-category="combo" data-aos="fade-up" data-aos-delay="200">
+          <div class="card-img-wrap">
+            <img src="https://images.unsplash.com/photo-1585747860715-2ba37e788b70?auto=format&fit=crop&w=700&q=80" alt="Gentleman Combo">
+            <span class="price-tag">30,000 MMK</span>
+          </div>
+          <div class="card-body">
+            <span class="cat-pill">Combo Packages</span>
+            <h3>The Gentleman Full Combo</h3>
+            <p>Haircut + Shave + Facial Spa + Scalp Massage အစုံအလင်ပါဝင်သော VIP Package။</p>
+            <div class="card-meta">
+              <span><i class="fa-regular fa-clock"></i> 80 Mins</span>
+              <a href="contact.html" class="book-now-btn">Book Now</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container footer-bottom">
+      <p>&copy; 2026 Classic Cuts Barber Shop. Hosted seamlessly with GitHub Pages.</p>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
