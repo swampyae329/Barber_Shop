@@ -10,6 +10,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+  <!-- Cloudflare Turnstile Script -->
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
 <body>
   <header class="navbar-wrapper" id="navbar">
@@ -40,7 +42,7 @@
 
   <section class="contact-section">
     <div class="container two-col-grid">
-      <!-- ဆိုင်အချက်အလက် -->
+      <!-- Info Left -->
       <div class="contact-info-card" data-aos="fade-right">
         <h2>ဆက်သွယ်ရန် အချက်အလက်များ</h2>
         <p>လူကြီးမင်းတို့ လာရောက်ရန် အဆင်ပြေစေမည့် အသေးစိတ်လိပ်စာနှင့် ဆက်သွယ်ရန်ဖုန်းများ -</p>
@@ -78,7 +80,7 @@
         </div>
       </div>
 
-      <!-- Booking Form -->
+      <!-- Booking Form Right -->
       <div class="booking-form-card" data-aos="fade-left">
         <h2>အွန်လိုင်း Booking တင်ရန်</h2>
         <form id="bookingForm">
@@ -119,6 +121,17 @@
           <div class="form-group">
             <label for="note">အထူးတောင်းဆိုချက်များ (Optional)</label>
             <textarea id="note" rows="3" placeholder="Stylist ရွေးချယ်လိုပါက သို့မဟုတ် အခြားဖြည့်စွက်ချက်"></textarea>
+          </div>
+
+          <!-- 1. Honeypot Field (Bot များအား ဖမ်းဆီးရန် လူမမြင်ရအောင် ဝှက်ထားသော အကွက်) -->
+          <div style="display: none !important;" aria-hidden="true">
+            <label for="website_url">Leave this empty</label>
+            <input type="text" id="website_url" name="website_url" tabindex="-1" autocomplete="off">
+          </div>
+
+          <!-- 2. Cloudflare Turnstile CAPTCHA (သင့် Site Key ကို ဤနေရာတွင် ထည့်ပါ) -->
+          <div class="form-group" style="margin-bottom: 15px;">
+            <div class="cf-turnstile" data-sitekey="YOUR_TURNSTILE_SITE_KEY_HERE" data-theme="dark"></div>
           </div>
 
           <button type="submit" class="btn btn-primary submit-btn">
