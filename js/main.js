@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // 4. Booking Form Submission Handling with Cloudflare Worker
+  // 4. Secure Booking Form Submission Handling
   const bookingForm = document.getElementById('bookingForm');
   const feedback = document.getElementById('formFeedback');
 
@@ -84,15 +84,48 @@ document.addEventListener('DOMContentLoaded', () => {
     bookingForm.addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      // Submit ခလုတ်ကို ချက်ချင်း Disable လုပ်ပြီး Loading ပြခြင်း
-      const submitBtn = bookingForm.querySelector('button[type="submit"]');
-      const originalBtnText = submitBtn.innerHTML;
-      submitBtn.disabled = true;
-      submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> ပေးပို့နေပါသည်...';
+      // [Security 1] Honeypot စစ်ဆေးခြင်း (Bot ဖြစ်ပါက Request မပို့ဘဲ ဟန်ပြ Success ပြပြီး ရပ်တန့်မည်)
+      const honeypot = document.getElementById('website_url').value;
+      if (honeypot) {
+        feedback.className = 'form-feedback success';
+        feedback.style.backgroundColor = 'rgba(34, 197, 94, 0.15)';
+        feedback.style.border = '1px solid #22c55e';
+        feedback.style.color = '#4ade80';
+        feedback.innerHTML = `<strong><i class="fa-solid fa-circle-check"></i> Booking အောင်မြင်ပါသည်!</strong>`;
+        feedback.classList.remove('hidden');
+        bookingForm.reset();
+        return;
+      }
 
       // Input Values ရယူခြင်း
       const name = document.getElementById('name').value.trim();
-      const phone = document.getElementById('phone').value.trim();
+      const rawPhone = document.getElementById('phone').value.trim();
+      const cleanPhone = rawPhone.replace(/[\s-]/g, '');
+
+      // [Security 2] Myanmar Phone Regex Validation စစ်ဆေးခြင်း
+      const myanmarPhoneRegex = /^(09|\+?959)(2|4|5|6|7|8|9)[0-9]{7,8}$/;
+      if (!myanmarPhoneRegex.test(cleanPhone)) {
+        feedback.className = 'form-feedback';
+        feedback.style.backgroundColor = 'rgba(239, 68, 68, 0.15)';
+        feedback.style.border = '1px solid #ef4444';
+        feedback.style.color = '#f87171';
+        feedback.innerHTML = `<strong><i class="fa-solid fa-triangle-exclamation"></i> ဖုန်းနံပါတ် မမှန်ကန်ပါ။</strong><br>ကျေးဇူးပြု၍ တရားဝင် မြန်မာဖုန်းနံပါတ် (ဥပမာ - 09xxxxxxxxx) ကို ရိုက်ထည့်ပေးပါ။`;
+        feedback.classList.remove('hidden');
+        return;
+      }
+
+      // [Security 3] Turnstile Token ရယူခြင်း
+      const turnstileToken = document.querySelector('[name="cf-turnstile-response"]')?.value;
+      if (!turnstileToken) {
+        feedback.className = 'form-feedback';
+        feedback.style.backgroundColor = 'rgba(239, 68, 68, 0.15)';
+        feedback.style.border = '1px solid #ef4444';
+        feedback.style.color = '#f87171';
+        feedback.innerHTML = `<strong>ကျေးဇူးပြု၍ Security Check ကို ခေတ္တစောင့်ပေးပါ သို့မဟုတ် ပြန်လည်စစ်ဆေးပါ။</strong>`;
+        feedback.classList.remove('hidden');
+        return;
+      }
+
       const serviceSelect = document.getElementById('service');
       const service = serviceSelect.options[serviceSelect.selectedIndex].text;
       const date = document.getElementById('date').value;
@@ -100,7 +133,12 @@ document.addEventListener('DOMContentLoaded', () => {
       const noteInput = document.getElementById('note');
       const note = noteInput && noteInput.value.trim() ? noteInput.value.trim() : 'မရှိပါ';
 
-      // Cloudflare Worker URL (Token ကို Worker Secret ထဲတွင် လုံခြုံစွာ ထည့်ထားပြီးဖြစ်ပါသည်)
+      const submitBtn = bookingForm.querySelector('button[type="submit"]');
+      const originalBtnText = submitBtn.innerHTML;
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> ပေးပို့နေပါသည်...';
+
+      // Cloudflare Worker URL
       const workerUrl = "https://barber-booking-api.swampyaeaung085.workers.dev";
 
       try {
@@ -111,11 +149,12 @@ document.addEventListener('DOMContentLoaded', () => {
           },
           body: JSON.stringify({
             name: name,
-            phone: phone,
+            phone: cleanPhone,
             service: service,
             date: date,
             time: time,
-            note: note
+            note: note,
+            turnstileToken: turnstileToken
           })
         });
 
@@ -128,9 +167,12 @@ document.addEventListener('DOMContentLoaded', () => {
           feedback.style.color = '#4ade80';
           feedback.innerHTML = `
             <strong><i class="fa-solid fa-circle-check"></i> Booking အောင်မြင်ပါသည်!</strong><br>
-            ကျေးဇူးတင်ပါတယ် <b>${name}</b>။ လူကြီးမင်း ရွေးချယ်ထားသော (${date} - ${time}) အတွက် ဖုန်းနံပါတ် <b>${phone}</b> သို့ မကြာမီ ဆိုင်မှ ပြန်လည်ဆက်သွယ် အတည်ပြုပေးပါမည်။
+            ကျေးဇူးတင်ပါတယ် <b>${name}</b>။ လူကြီးမင်း ရွေးချယ်ထားသော (${date} - ${time}) အတွက် ဖုန်းနံပါတ် <b>${cleanPhone}</b> သို့ မကြာမီ ဆိုင်မှ ပြန်လည်ဆက်သွယ် အတည်ပြုပေးပါမည်။
           `;
           bookingForm.reset();
+          if (window.turnstile) {
+            turnstile.reset();
+          }
         } else {
           throw new Error(data.description || 'API Error');
         }
